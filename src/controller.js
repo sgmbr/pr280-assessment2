@@ -2,8 +2,11 @@
 
 class MainController {
     constructor() {
-        this.projects = ['PR280', 'CE301']
-        this.phases = ['plan', 'analysis', 'coding', 'test']
+        this.timeLogger = new TimeLogger()
+        this.projects = this.timeLogger.allMyProjects
+        this.selectedProject = ''
+        this.phases = this.selectedProject ? this.timeLogger.findProject(this.selectedProject).allMyPhases : ''
+        this.selectedPhase = ''
         this.date = new Date()
         this.start = this.getCurrentTime()
         this.stop = this.getCurrentTime()
@@ -28,5 +31,20 @@ class MainController {
         let m = zeroPadding(delta.getUTCMinutes())
         //return delta
         return `${h}:${m}`
+    }
+
+    addProject() {
+        let newProjectName = prompt('Create new project')
+        if (newProjectName !== '') {
+            this.timeLogger.addProject(newProjectName)
+        }
+    }
+
+    addPhase() {
+        let newPhaseName = prompt('Create new phase')
+        if (newPhaseName !== '') {
+            let theProject = this.timeLogger.findProject(this.selectedProject)
+            theProject.addPhase(newPhaseName)
+        }
     }
 }

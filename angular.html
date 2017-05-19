@@ -14,14 +14,16 @@
         <h1>Angular</h1>
         <form>
             <label for="project">Project:</label>
-            <select id="project" data-ng-model="mc.project">
-                <option data-ng-repeat="project in mc.projects">{{ project }}</option>
+            <select id="project" data-ng-model="mc.selectedProject">
+                <option data-ng-repeat="project in mc.projects">{{ project.name }}</option>
             </select>
+            <button data-ng-click="mc.addProject()">+</button>
 
             <label for="phase">Phase:</label>
-            <select id="phase" data-ng-model="mc.phase">
-                <option data-ng-repeat="phase in mc.phases">{{ phase }}</option>
+            <select id="phase" data-ng-model="mc.selectedPhase">
+                <option data-ng-repeat="phase in mc.phases">{{ phase.name }}</option>
             </select>
+            <button data-ng-click="mc.addPhase()">+</button>
 
             <label for="date">Date:</label>
             <input type="date" id="date" data-ng-model="mc.date">
@@ -45,6 +47,10 @@
         </form>
     </div>
 
+    <script src="src/phase.js"></script>
+    <script src="src/project.js"></script>
+    <script src="src/time-log.js"></script>
+    <script src="src/time-logger.js"></script>
     <script src="src/controller.js"></script>
     <script src="src/main.js"></script>
 </body>
