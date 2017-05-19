@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Time manipulation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+</head>
+<body data-ng-app="timeLogger">
+    <div data-ng-controller="MainController as mc">
+        <h1>Angular</h1>
+        <form>
+            <label for="project">Project:</label>
+            <select id="project" data-ng-model="mc.project">
+                <option data-ng-repeat="project in mc.projects">{{ project }}</option>
+            </select>
+
+            <label for="phase">Phase:</label>
+            <select id="phase" data-ng-model="mc.phase">
+                <option data-ng-repeat="phase in mc.phases">{{ phase }}</option>
+            </select>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" data-ng-model="mc.date">
+
+            <label for="start">Start:</label>
+            <input type="time" id="start" data-ng-model="mc.start" required>
+
+            <label for="stop">Stop:</label>
+            <input type="time" id="stop" data-ng-model="mc.stop">
+
+            <label for="interruption">Int Time:</label>
+            <input type="text" id="interruption" data-ng-model="mc.interruption">
+
+            <label for="delta">Delta Time:</label>
+            <span>{{ mc.getDeltaTime() }}</span>
+
+            <label for="comment">Comment:</label>
+            <textarea id="comment"></textarea>
+
+            <button type="submit">Enter</button>
+        </form>
+    </div>
+
+    <script src="src/controller.js"></script>
+    <script src="src/main.js"></script>
+</body>
+</html>
