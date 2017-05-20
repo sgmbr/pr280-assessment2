@@ -2,7 +2,8 @@
 
 class TimeLogger {
     constructor() {
-        this.allMyProjects = []
+        this.projects = []
+        this.phases = []
         this.allMyTimeLogs = []
         this.idCounter = 0
     }
@@ -12,20 +13,28 @@ class TimeLogger {
         return this.idCounter
     }
 
-    addProject(newProjectName) {
-        let newId = this.generateId()
-        let newProject = new Project(newId, newProjectName)
-        this.allMyProjects.push(newProject)
+    addProject(newProject) {
+        if (newProject.trim() !== '') {
+            this.projects.push(newProject)
+        }
     }
 
-    findProject(projectName) {
-        let theProject = this.allMyProjects.find(aProject => aProject.name == projectName)
-        return theProject
+    addPhase(newPhase) {
+        if (newPhase.trim() !== '') {
+            this.phases.push(newPhase)
+        }
+    }
+
+    getDeltaTime(start, stop, interruption) {
+        interruption = new Date(`1970-01-01T${interruption}Z`)
+        let delta = new Date(stop - start - interruption)
+        return delta
     }
 
     addTimeLog(theProject, thePhase, newDate, newStart, newStop, newInterruption, newComment) {
         let newId = this.generateId()
-        let newTimeLog = new TimeLog(newId, theProject, thePhase, newDate, newStart, newStop, newInterruption, newComment)
+        let newDelta = this.getDeltaTime(newStart, newStop, newInterruption)
+        let newTimeLog = new TimeLog(newId, theProject, thePhase, newDate, newStart, newStop, newInterruption, newDelta, newComment)
         this.allMyTimeLogs.push(newTimeLog)
     }
 

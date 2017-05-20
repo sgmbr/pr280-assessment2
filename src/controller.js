@@ -3,30 +3,35 @@
 class MainController {
     constructor() {
         this.timeLogger = new TimeLogger()
-        this.projects = this.timeLogger.allMyProjects
+        this.projects = this.timeLogger.projects
+        this.phases = this.timeLogger.phases
+
+        this.initialiseInput()
+    }
+
+    initialiseInput() {
         this.selectedProject = ''
-        this.phases = this.selectedProject ? this.timeLogger.findProject(this.selectedProject).allMyPhases : ''
         this.selectedPhase = ''
         this.date = new Date()
         this.start = this.getCurrentTime()
         this.stop = this.getCurrentTime()
         this.interruption = "00:00"
+        this.comment = ''
     }
 
     // format time to fit input[time]
     getCurrentTime() {
-        let now = this.date
+        let now = new Date()
         now.setSeconds(0)
         now.setMilliseconds(0)
         return now
     }
 
-    getDeltaTime() {
+    showDeltaTime() {
         function zeroPadding(number) {
             return (number < 10) ? "0" + number : number
         }
-        let interruption = new Date(`1970-01-01T${this.interruption}Z`)
-        let delta = new Date(this.stop - this.start - interruption)
+        let delta = this.timeLogger.getDeltaTime(this.start, this.stop, this.interruption)
         let h = zeroPadding(delta.getUTCHours())
         let m = zeroPadding(delta.getUTCMinutes())
         //return delta
@@ -35,16 +40,21 @@ class MainController {
 
     addProject() {
         let newProjectName = prompt('Create new project')
-        if (newProjectName !== '') {
+        if (newProjectName.trim() !== '') {
             this.timeLogger.addProject(newProjectName)
         }
     }
 
     addPhase() {
         let newPhaseName = prompt('Create new phase')
-        if (newPhaseName !== '') {
-            let theProject = this.timeLogger.findProject(this.selectedProject)
-            theProject.addPhase(newPhaseName)
+        if (newPhaseName.trim() !== '') {
+            this.timeLogger.addPhase(newPhaseName)
         }
+    }
+
+    addTimeLog() {
+        this.timeLogger.addTimeLog(this.selectedProject, this.selectedPhase, this.date, this.start, this.stop, this.interruption, this.comment)
+        console.log(this.timeLogger)
+        this.initialiseInput()
     }
 }

@@ -14,15 +14,11 @@
         <h1>Angular</h1>
         <form>
             <label for="project">Project:</label>
-            <select id="project" data-ng-model="mc.selectedProject">
-                <option data-ng-repeat="project in mc.projects">{{ project.name }}</option>
-            </select>
+            <select id="project" data-ng-model="mc.selectedProject" data-ng-options="project for project in mc.projects"></select>
             <button data-ng-click="mc.addProject()">+</button>
 
             <label for="phase">Phase:</label>
-            <select id="phase" data-ng-model="mc.selectedPhase">
-                <option data-ng-repeat="phase in mc.phases">{{ phase.name }}</option>
-            </select>
+            <select id="phase" data-ng-model="mc.selectedPhase" data-ng-options="phase for phase in mc.phases"></select>
             <button data-ng-click="mc.addPhase()">+</button>
 
             <label for="date">Date:</label>
@@ -38,17 +34,15 @@
             <input type="text" id="interruption" data-ng-model="mc.interruption">
 
             <label for="delta">Delta Time:</label>
-            <span>{{ mc.getDeltaTime() }}</span>
+            <span>{{ mc.showDeltaTime() }}</span>
 
             <label for="comment">Comment:</label>
-            <textarea id="comment"></textarea>
+            <textarea id="comment" data-ng-model="mc.comment"></textarea>
 
-            <button type="submit">Enter</button>
+            <button data-ng-click="mc.addTimeLog()">Enter</button>
         </form>
     </div>
 
-    <script src="src/phase.js"></script>
-    <script src="src/project.js"></script>
     <script src="src/time-log.js"></script>
     <script src="src/time-logger.js"></script>
     <script src="src/controller.js"></script>
