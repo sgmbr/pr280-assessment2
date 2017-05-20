@@ -10,36 +10,81 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
 </head>
 <body data-ng-app="timeLogger">
-    <div data-ng-controller="MainController as mc">
-        <h1>Angular</h1>
-        <form>
-            <label for="project">Project:</label>
-            <select id="project" data-ng-model="mc.selectedProject" data-ng-options="project for project in mc.projects"></select>
-            <button data-ng-click="mc.addProject()">+</button>
+    <div data-ng-controller="MainController as mc" class="container">
+        <h1>Time Logger</h1>
 
-            <label for="phase">Phase:</label>
-            <select id="phase" data-ng-model="mc.selectedPhase" data-ng-options="phase for phase in mc.phases"></select>
-            <button data-ng-click="mc.addPhase()">+</button>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="project">Project:</label>
+                <div class="input-group col-sm-3">
+                    <select class="form-control" id="project" data-ng-model="mc.selectedProject" data-ng-options="project for project in mc.projects"></select>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" data-ng-click="mc.addProject()">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-            <label for="date">Date:</label>
-            <input type="date" id="date" data-ng-model="mc.date">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="phase">Phase:</label>
+                <div class="input-group col-sm-3">
+                    <select class="form-control" id="phase" data-ng-model="mc.selectedPhase" data-ng-options="phase for phase in mc.phases"></select>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" data-ng-click="mc.addPhase()">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-            <label for="start">Start:</label>
-            <input type="time" id="start" data-ng-model="mc.start" required>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="date">Date:</label>
+                <div class="col-sm-3">
+                    <input type="date" class="form-control" id="date" data-ng-model="mc.date">
+                </div>
+            </div>
 
-            <label for="stop">Stop:</label>
-            <input type="time" id="stop" data-ng-model="mc.stop">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="start">Start:</label>
+                <div class="col-sm-3">
+                    <input type="time" class="form-control" id="start" data-ng-model="mc.start" required>
+                </div>
+            </div>
 
-            <label for="interruption">Int Time:</label>
-            <input type="text" id="interruption" data-ng-model="mc.interruption">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="stop">Stop:</label>
+                <div class="col-sm-3">
+                    <input type="time" class="form-control" id="stop" data-ng-model="mc.stop">
+                </div>
+            </div>
 
-            <label for="delta">Delta Time:</label>
-            <span>{{ mc.showDeltaTime() }}</span>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="interruption">Int Time:</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="interruption" data-ng-model="mc.interruption">
+                </div>
+            </div>
 
-            <label for="comment">Comment:</label>
-            <textarea id="comment" data-ng-model="mc.comment"></textarea>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="delta">Delta Time:</label>
+                <div class="col-sm-3">
+                    <p class="form-control-static">{{ mc.showDeltaTime() }}</p>
+                </div>
+            </div>
 
-            <button data-ng-click="mc.addTimeLog()">Enter</button>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="comment">Comment:</label>
+                <div class="col-sm-3">
+                    <textarea class="form-control" id="comment" data-ng-model="mc.comment"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-3">
+                    <button class="btn btn-default" data-ng-click="mc.addTimeLog()">Enter</button>
+                </div>
+            </div>
         </form>
     </div>
 
