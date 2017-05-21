@@ -14,19 +14,20 @@ class TimeLogger {
     }
 
     addProject(newProject) {
-        if (newProject.trim() !== '') {
+        newProject = newProject.trim()
+        if (newProject !== '') {
             this.projects.push(newProject)
         }
     }
 
     addPhase(newPhase) {
-        if (newPhase.trim() !== '') {
+        newPhase = newPhase.trim()
+        if (newPhase !== '') {
             this.phases.push(newPhase)
         }
     }
 
     getDeltaTime(start, stop, interruption) {
-        interruption = new Date(`1970-01-01T${interruption}Z`)
         let delta = new Date(stop - start - interruption)
         return delta
     }

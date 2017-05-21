@@ -27,11 +27,16 @@ class MainController {
         return now
     }
 
+    getInterruptionInDate() {
+        return new Date(`1970-01-01T${this.interruption}Z`)
+    }
+
     showDeltaTime() {
         function zeroPadding(number) {
             return (number < 10) ? "0" + number : number
         }
-        let delta = this.timeLogger.getDeltaTime(this.start, this.stop, this.interruption)
+        let interruption = this.getInterruptionInDate()
+        let delta = this.timeLogger.getDeltaTime(this.start, this.stop, interruption)
         let h = zeroPadding(delta.getUTCHours())
         let m = zeroPadding(delta.getUTCMinutes())
         //return delta
@@ -39,21 +44,22 @@ class MainController {
     }
 
     addProject() {
-        let newProjectName = prompt('Create new project')
-        if (newProjectName.trim() !== '') {
+        let newProjectName = prompt('Create new project').trim()
+        if (newProjectName !== '') {
             this.timeLogger.addProject(newProjectName)
         }
     }
 
     addPhase() {
-        let newPhaseName = prompt('Create new phase')
-        if (newPhaseName.trim() !== '') {
+        let newPhaseName = prompt('Create new phase').trim()
+        if (newPhaseName !== '') {
             this.timeLogger.addPhase(newPhaseName)
         }
     }
 
     addTimeLog() {
-        this.timeLogger.addTimeLog(this.selectedProject, this.selectedPhase, this.date, this.start, this.stop, this.interruption, this.comment)
+        let interruption = this.getInterruptionInDate()
+        this.timeLogger.addTimeLog(this.selectedProject, this.selectedPhase, this.date, this.start, this.stop, interruption, this.comment)
         console.log(this.timeLogger)
         this.initialiseInput()
     }
