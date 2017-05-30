@@ -36,7 +36,7 @@ class MainController {
 
     buildStartDate() {
         let year = this.date.getFullYear()
-        let month = this.date.getMonth() + 1
+        let month = this.date.getMonth()
         let date = this.date.getDate()
         let hours = this.start.getHours()
         let minutes = this.start.getMinutes()
