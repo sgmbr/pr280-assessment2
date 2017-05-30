@@ -1,6 +1,8 @@
 /* jshint undef: true, unused: true, esversion: 6, asi: true */
 
 class DateProcessor {
+    constructor() {}
+
     buildStartDate(theDate, theStart) {
         let year = theDate.getFullYear()
         let month = theDate.getMonth()

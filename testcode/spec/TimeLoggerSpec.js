@@ -78,64 +78,33 @@ describe('TimeLogger', () => {
         })
     })
 
-    describe('getDeltaTime function', () => {
-        let start, stop, interruption
-
-        beforeEach(() => {
-            start = new Date('2017-05-21T13:00Z')
-            stop = new Date('2017-05-21T14:00Z') // 1 hour distance
-            interruption = new Date('1970-01-01T00:00Z') // no interruption
-        })
-
-        it('returns Date instance', () => {
-            let delta = timeLogger.getDeltaTime(start, stop, interruption)
-            expect(delta instanceof Date).toBeTruthy()
-        })
-
-        it('returns 1 hour when given 1 hour distance', () => {
-            let delta = timeLogger.getDeltaTime(start, stop, interruption)
-            expect(delta.toUTCString()).toBe('Thu, 01 Jan 1970 01:00:00 GMT')
-        })
-
-        it('returns 55 min when given 1 hour distance and 5 min interruption', () => {
-            interruption = new Date('1970-01-01T00:05Z') // 5 min interruption
-            let delta = timeLogger.getDeltaTime(start, stop, interruption)
-            expect(delta.toUTCString()).toBe('Thu, 01 Jan 1970 00:55:00 GMT')
-        })
-    })
-
     describe('addTimeLog function', () => {
-        let project, phase, date, start, stop, interruption, comment
+        let project, phase, start, stop, interruption, delta, comment
 
         beforeEach(() => {
             project = 'PR280'
             phase = 'Testing'
-            date = new Date('2017-05-21T13:00Z')
             start = new Date('2017-05-21T13:00Z')
             stop = new Date('2017-05-21T14:00Z')
             interruption = new Date('1970-01-01T00:00Z')
+            delta = new Date('1970-01-01T01:00Z')
             comment = 'Unit test'
         })
 
         it('generates TimeLog and stores it to this.allMyTimeLogs', () => {
-            timeLogger.addTimeLog(project, phase, date, start, stop, interruption, comment)
+            timeLogger.addTimeLog(project, phase, start, stop, interruption, delta, comment)
             expect(timeLogger.allMyTimeLogs[0].myProject).toBe('PR280')
             expect(timeLogger.allMyTimeLogs[0].myPhase).toBe('Testing')
-            expect(timeLogger.allMyTimeLogs[0].date).toEqual(date)
             expect(timeLogger.allMyTimeLogs[0].start).toEqual(start)
             expect(timeLogger.allMyTimeLogs[0].stop).toEqual(stop)
             expect(timeLogger.allMyTimeLogs[0].interruption).toEqual(interruption)
+            expect(timeLogger.allMyTimeLogs[0].delta).toEqual(delta)
             expect(timeLogger.allMyTimeLogs[0].comment).toBe('Unit test')
         })
 
         it('generates id and set it to the TimeLog', () => {
-            timeLogger.addTimeLog(project, phase, date, start, stop, interruption, comment)
+            timeLogger.addTimeLog(project, phase, start, stop, interruption, delta, comment)
             expect(timeLogger.allMyTimeLogs[0].id).toBe(1)
-        })
-
-        it('generates delta time and set it to the TimeLog', () => {
-            timeLogger.addTimeLog(project, phase, date, start, stop, interruption, comment)
-            expect(timeLogger.allMyTimeLogs[0].delta.toUTCString()).toBe('Thu, 01 Jan 1970 01:00:00 GMT')
         })
     })
 })
