@@ -1,10 +1,11 @@
 /* jshint undef: true, unused: true, esversion: 6, asi: true */
 
 class MainController {
-    constructor() {
-        this.timeLogger = new TimeLogger()
+    constructor(timeLogger, timeUtil) {
+        this.timeLogger = timeLogger
         this.projects = this.timeLogger.projects
         this.phases = this.timeLogger.phases
+        this.timeUtil = timeUtil
 
         this.initialiseInput()
     }
@@ -27,20 +28,28 @@ class MainController {
         return now
     }
 
-    getInterruptionInDate() {
+    convertInterruptionToDate() {
+        // ISO Dates format. Z indicates UTC.
+        // https://www.w3schools.com/js/js_date_formats.asp
         return new Date(`1970-01-01T${this.interruption}Z`)
     }
 
+    buildStartDate() {
+        let year = this.date.getFullYear()
+        let month = this.date.getMonth() + 1
+        let date = this.date.getDate()
+        let hours = this.start.getHours()
+        let minutes = this.start.getMinutes()
+
+        let start = new Date(year, month, date, hours, minutes)
+        return start
+    }
+
     showDeltaTime() {
-        function zeroPadding(number) {
-            return (number < 10) ? "0" + number : number
-        }
-        let interruption = this.getInterruptionInDate()
+        let interruption = this.convertInterruptionToDate()
         let delta = this.timeLogger.getDeltaTime(this.start, this.stop, interruption)
-        let h = zeroPadding(delta.getUTCHours())
-        let m = zeroPadding(delta.getUTCMinutes())
-        //return delta
-        return `${h}:${m}`
+        let out = this.timeUtil.getUTCHHMM(delta)
+        return out
     }
 
     addProject() {
@@ -58,9 +67,12 @@ class MainController {
     }
 
     addTimeLog() {
-        let interruption = this.getInterruptionInDate()
-        this.timeLogger.addTimeLog(this.selectedProject, this.selectedPhase, this.date, this.start, this.stop, interruption, this.comment)
+        let interruption = this.convertInterruptionToDate()
+        let start = this.buildStartDate()
+        this.timeLogger.addTimeLog(this.selectedProject, this.selectedPhase, start, this.stop, interruption, this.comment)
         console.log(this.timeLogger)
         this.initialiseInput()
     }
 }
+
+MainController.$inject = ['timeLogger', 'timeUtil']

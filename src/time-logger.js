@@ -1,11 +1,12 @@
 /* jshint undef: true, unused: true, esversion: 6, asi: true */
 
 class TimeLogger {
-    constructor() {
+    constructor(timeUtil) {
         this.projects = []
         this.phases = []
         this.allMyTimeLogs = []
         this.idCounter = 0
+        this.timeUtil = timeUtil
     }
 
     generateId() {
@@ -32,11 +33,16 @@ class TimeLogger {
         return delta
     }
 
-    addTimeLog(theProject, thePhase, newDate, newStart, newStop, newInterruption, newComment) {
+    addTimeLog(theProject, thePhase, newStart, newStop, newInterruption, newComment) {
         let newId = this.generateId()
         let newDelta = this.getDeltaTime(newStart, newStop, newInterruption)
-        let newTimeLog = new TimeLog(newId, theProject, thePhase, newDate, newStart, newStop, newInterruption, newDelta, newComment)
+        let newTimeLog = new TimeLog(newId, theProject, thePhase, newStart, newStop, newInterruption, newDelta, newComment)
         this.allMyTimeLogs.push(newTimeLog)
     }
 
+    static getReturn() {
+        return new TimeLogger()
+    }
 }
+
+TimeLogger.$inject = ['timeUtil']

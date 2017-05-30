@@ -1,0 +1,26 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Project</th>
+            <th>Phase</th>
+            <th>Date</th>
+            <th>Start</th>
+            <th>Stop</th>
+            <th>Interrupt Time</th>
+            <th>Delta Time</th>
+            <th>Comment</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-repeat="log in mc.timeLogger.allMyTimeLogs | orderBy: 'start'">
+            <td>{{ log.myProject }}</td>
+            <td>{{ log.myPhase }}</td>
+            <td>{{ log.start.toDateString() }}</td>
+            <td>{{ mc.timeUtil.getHHMM(log.start) }}</td>
+            <td>{{ mc.timeUtil.getHHMM(log.stop) }}</td>
+            <td>{{ mc.timeUtil.getUTCHHMM(log.interruption) }}</td>
+            <td>{{ mc.timeUtil.getUTCHHMM(log.delta) }}</td>
+            <td>{{ log.comment }}</td>
+        </tr>
+    </tbody>
+</table>
