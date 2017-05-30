@@ -3,9 +3,9 @@
 class MainController {
     constructor(timeLogger, timeUtil) {
         this.timeLogger = timeLogger
+        this.timeUtil = timeUtil
         this.projects = this.timeLogger.projects
         this.phases = this.timeLogger.phases
-        this.timeUtil = timeUtil
 
         this.initialiseInput()
     }

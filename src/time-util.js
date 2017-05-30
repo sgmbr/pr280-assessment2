@@ -1,8 +1,6 @@
 /* jshint undef: true, unused: true, esversion: 6, asi: true */
 
 class TimeUtil {
-    constructor() {}
-
     // helper function to be used
     zeroPadding(number) {
         return (number < 10) ? "0" + number : number
@@ -19,9 +17,5 @@ class TimeUtil {
         let hh = this.zeroPadding(date.getUTCHours())
         let mm = this.zeroPadding(date.getUTCMinutes())
         return `${hh}:${mm}`
-    }
-
-    static getReturn() {
-        return new TimeUtil()
     }
 }
