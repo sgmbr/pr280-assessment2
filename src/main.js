@@ -4,5 +4,5 @@ window.angular
     .module('timeLogger', [])
     .controller('MainController', MainController)
     .directive('timeLogTable', TimeLogTable.directiveFactory)
-    .service('timeUtil', TimeUtil)
-    .service('timeLogger', TimeLogger)
+    .service('dateProcessor', DateProcessor)
+    .service('timeLogger', ['dateProcessor', TimeLogger])

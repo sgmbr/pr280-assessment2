@@ -27,14 +27,8 @@ class TimeLogger {
         }
     }
 
-    getDeltaTime(start, stop, interruption) {
-        let delta = new Date(stop - start - interruption)
-        return delta
-    }
-
-    addTimeLog(theProject, thePhase, newStart, newStop, newInterruption, newComment) {
+    addTimeLog(theProject, thePhase, newStart, newStop, newInterruption, newDelta, newComment) {
         let newId = this.generateId()
-        let newDelta = this.getDeltaTime(newStart, newStop, newInterruption)
         let newTimeLog = new TimeLog(newId, theProject, thePhase, newStart, newStop, newInterruption, newDelta, newComment)
         this.allMyTimeLogs.push(newTimeLog)
     }
