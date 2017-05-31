@@ -15,11 +15,11 @@
         <tr data-ng-repeat="log in mc.timeLogger.allMyTimeLogs | orderBy: '-start'">
             <td>{{ log.myProject }}</td>
             <td>{{ log.myPhase }}</td>
-            <td>{{ log.start.toDateString() }}</td>
-            <td>{{ mc.dateProcessor.getHHMM(log.start) }}</td>
-            <td>{{ mc.dateProcessor.getHHMM(log.stop) }}</td>
-            <td>{{ mc.dateProcessor.getUTCHHMM(log.interruption) }}</td>
-            <td>{{ mc.dateProcessor.getUTCHHMM(log.delta) }}</td>
+            <td>{{ log.start | date:"d MMM yyyy"}}</td>
+            <td>{{ log.start | date:"h:mm a"}}</td>
+            <td>{{ log.stop | date:"h:mm a" }}</td>
+            <td>{{ log.interruption | date:"H:mm":"UTC" }}</td>
+            <td>{{ log.delta | date:"H:mm":"UTC" }}</td>
             <td>{{ log.comment }}</td>
         </tr>
     </tbody>

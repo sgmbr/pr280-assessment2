@@ -91,8 +91,25 @@
         </div>
 
         <div class="col-sm-9">
-            <h2>Time Logs</h2>
-            <time-log-table></time-log-table>
+            <!-- Nav tabs -->
+            <ul id="myTabs" class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#time-logs" aria-controls="time-logs" role="tab" data-toggle="tab">Time Logs</a>
+                </li>
+                <li role="presentation">
+                    <a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpane1" class="tab-pane active" id="time-logs">
+                    <time-log-table></time-log-table>
+                </div>
+                <div role="tabpane1" class="tab-pane" id="summary">
+                    <p>summary</p>
+                </div>
+            </div>
         </div>
     </div>
 

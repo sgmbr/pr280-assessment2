@@ -3,7 +3,7 @@
 class TimeLogTable {
     constructor() {
         this.restrict = 'E'
-        this.templateUrl = 'template/time-log-table.html'
+        this.templateUrl = 'templates/time-log-table.html'
     }
 
     static directiveFactory() {
