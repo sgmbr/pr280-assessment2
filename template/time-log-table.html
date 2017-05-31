@@ -12,7 +12,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr data-ng-repeat="log in mc.timeLogger.allMyTimeLogs | orderBy: 'start'">
+        <tr data-ng-repeat="log in mc.timeLogger.allMyTimeLogs | orderBy: '-start'">
             <td>{{ log.myProject }}</td>
             <td>{{ log.myPhase }}</td>
             <td>{{ log.start.toDateString() }}</td>
