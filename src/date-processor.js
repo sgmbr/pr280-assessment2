@@ -33,21 +33,67 @@ class DateProcessor {
         return now
     }
 
-    // helper function to be used
     zeroPadding(number) {
         return (number < 10) ? "0" + number : number
     }
 
-    getHHMM(date) {
-        let hh = this.zeroPadding(date.getHours())
-        let mm = this.zeroPadding(date.getMinutes())
-        return `${hh}:${mm}`
+    showTime(date) {
+        let time = date.getTime()
+
+        let minutes = Math.floor(time / 1000 / 60) % 60
+        let hours = Math.floor(time / 1000 / 60 / 60) % 60
+
+        minutes = this.zeroPadding(minutes)
+
+        return `${hours}:${minutes}`
     }
 
-    // This method is only for delta time because it's UTC time
-    getUTCHHMM(date) {
-        let hh = this.zeroPadding(date.getUTCHours())
-        let mm = this.zeroPadding(date.getUTCMinutes())
-        return `${hh}:${mm}`
+    getDateSum(dates) {
+        let sum = dates.reduce((acc, cur) => acc + cur.getTime(), 0)
+        return new Date(sum)
     }
+
+    getDateMean(dates) {
+        let mean = 0
+        let sum = this.getDateSum(dates)
+        let count = dates.length
+        if (count > 0) {
+            mean = Math.round(sum.getTime() / count)
+        }
+        return new Date(mean)
+    }
+
+    getDeviations(dates) {
+        let mean = this.getDateMean(dates)
+        let deviations = dates.map(date => date.getTime() - mean.getTime())
+        return deviations
+    }
+
+    getCorrelationCoefficient(x, y) {
+        function getProduct(xDeviations, yDeviations) {
+            let product = 0
+            for (let i = 0; i < xDeviations.length; i++) {
+                product += xDeviations[i] * yDeviations[i]
+            }
+            return product
+        }
+
+        function getDeviationsSquaredSum(deviations) {
+            let squared = deviations.map(deviation => deviation * deviation)
+            let sum = squared.reduce((acc, cur) => acc + cur, 0)
+            return sum
+        }
+
+        let xDeviations = this.getDeviations(x)
+        let yDeviations = this.getDeviations(y)
+
+        let product = getProduct(xDeviations, yDeviations)
+        let xDeviationsSquaredSum = getDeviationsSquaredSum(xDeviations)
+        let yDeviationsSquaredSum = getDeviationsSquaredSum(yDeviations)
+
+        let correlationCoefficient = product / Math.sqrt(xDeviationsSquaredSum * yDeviationsSquaredSum)
+
+        return correlationCoefficient
+    }
+
 }
