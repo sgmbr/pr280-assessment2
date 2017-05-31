@@ -1,0 +1,9 @@
+<div data-ng-controller="SummaryController as sc">
+    <p>Interruption Time Sum: {{ sc.getDateSum(sc.getInterruptions()) | date:"H:mm":"UTC" }}</p>
+    <p>Interruption Time Mean: {{ sc.getDateMean(sc.getInterruptions()) | date:"H:mm":"UTC" }}</p>
+    <p>Delta Time Sum: {{ sc.getDateSum(sc.getDeltas()) | date:"H:mm":"UTC" }}</p>
+    <p>Delta Time Mean: {{ sc.getDateMean(sc.getDeltas()) | date:"H:mm":"UTC" }}</p>
+    <p>Interruption Deviations: {{ sc.getDeviations(sc.getInterruptions()) }}</p>
+    <p>Interruption Deviations Squared: {{ sc.getDeviationsSquared(sc.getInterruptions()) }}</p>
+    <p>Correlation Coefficient: {{ sc.getCorrelationCoefficient(sc.getInterruptions(), sc.getDeltas()) }}</p>
+</div>

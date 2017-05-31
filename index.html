@@ -71,7 +71,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-5" for="delta">Delta Time:</label>
                     <div class="col-sm-7">
-                        <p class="form-control-static">{{ mc.showDeltaTime() }}</p>
+                        <p class="form-control-static">{{ mc.showDeltaTime() | date:"HH:mm":"UTC" }}</p>
                     </div>
                 </div>
 
@@ -107,7 +107,7 @@
                     <time-log-table></time-log-table>
                 </div>
                 <div role="tabpane1" class="tab-pane" id="summary">
-                    <p>summary</p>
+                    <summary></summary>
                 </div>
             </div>
         </div>
@@ -117,7 +117,9 @@
     <script src="src/time-log.js"></script>
     <script src="src/time-logger.js"></script>
     <script src="src/time-log-table.js"></script>
+    <script src="src/summary.js"></script>
     <script src="src/controller.js"></script>
+    <script src="src/summary-controller.js"></script>
     <script src="src/main.js"></script>
 </body>
 </html>

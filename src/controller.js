@@ -23,8 +23,9 @@ class MainController {
     showDeltaTime() {
         let interruption = this.dateProcessor.convertInterruptionToDate(this.interruption)
         let delta = this.dateProcessor.getDeltaTime(this.start, this.stop, interruption)
-        let out = this.dateProcessor.getUTCHHMM(delta)
-        return out
+        return delta
+        //let out = this.dateProcessor.getUTCHHMM(delta)
+        //return out
     }
 
     addProject() {
