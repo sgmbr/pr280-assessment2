@@ -37,9 +37,7 @@ class DateProcessor {
         return (number < 10) ? "0" + number : number
     }
 
-    showTime(date) {
-        let time = date.getTime()
-
+    showTime(time) {
         let minutes = Math.floor(time / 1000 / 60) % 60
         let hours = Math.floor(time / 1000 / 60 / 60) % 60
 
@@ -50,22 +48,20 @@ class DateProcessor {
 
     getDateSum(dates) {
         let sum = dates.reduce((acc, cur) => acc + cur.getTime(), 0)
-        return new Date(sum)
+        return sum
     }
 
     getDateMean(dates) {
         let mean = 0
-        let sum = this.getDateSum(dates)
-        let count = dates.length
-        if (count > 0) {
-            mean = Math.round(sum.getTime() / count)
+        if (dates.length > 0) {
+            mean = this.getDateSum(dates) / dates.length
         }
-        return new Date(mean)
+        return mean
     }
 
     getDeviations(dates) {
         let mean = this.getDateMean(dates)
-        let deviations = dates.map(date => date.getTime() - mean.getTime())
+        let deviations = dates.map(date => date.getTime() - mean)
         return deviations
     }
 
