@@ -15,9 +15,18 @@ class DateProcessor {
     }
 
     convertInterruptionToDate(interruption) {
-        // ISO Dates format. Z indicates UTC.
-        // https://www.w3schools.com/js/js_date_formats.asp
-        return new Date(`1970-01-01T${interruption}Z`)
+        let match = interruption.match(/^(\d{2})\:(\d{2})$/)
+        let hours, minutes, time
+
+        if (match) {
+            hours = Number(match[1]) * 1000 * 60 * 60
+            minutes = Number(match[2]) * 1000 * 60
+            time = hours + minutes
+        } else {
+            time = 0
+        }
+
+        return new Date(time)
     }
 
     getDeltaTime(start, stop, interruption) {
@@ -38,8 +47,14 @@ class DateProcessor {
     }
 
     showTime(time) {
-        let minutes = Math.floor(time / 1000 / 60) % 60
-        let hours = Math.floor(time / 1000 / 60 / 60) % 60
+        let hours, minutes
+
+        if (typeof time === 'number' && time > 0) {
+            hours = Math.floor(time / 1000 / 60 / 60) % 60
+            minutes = Math.floor(time / 1000 / 60) % 60
+        } else {
+            hours = minutes = 0
+        }
 
         minutes = this.zeroPadding(minutes)
 

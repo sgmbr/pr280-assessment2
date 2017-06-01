@@ -44,6 +44,12 @@ describe('DateProcessor', () => {
             let interruptionDate = dateProcessor.convertInterruptionToDate(interruption)
             expect(interruptionDate.toUTCString()).toEqual('Thu, 01 Jan 1970 01:05:00 GMT')
         })
+
+        it('returns a date of 00:00 if parameter is invalid', () => {
+            interruption = 'test'
+            let interruptionDate = dateProcessor.convertInterruptionToDate(interruption)
+            expect(interruptionDate.toUTCString()).toEqual('Thu, 01 Jan 1970 00:00:00 GMT')
+        })
     })
 
     describe('getDeltaTime function', () => {
@@ -85,31 +91,129 @@ describe('DateProcessor', () => {
         })
     })
 
-    describe('getHHMM function', () => {
-        it('returns String', () => {
-            let date = new Date()
-            let hhmm = dateProcessor.getHHMM(date)
-            expect(typeof hhmm).toEqual('string')
+    describe('zeroPadding function', () => {
+        it('returns "01" when passed 1', () => {
+            let number = 1
+            expect(dateProcessor.zeroPadding(number)).toEqual('01')
         })
 
-        it('returns time of current locale', () => {
-            let date = new Date(2017, 4, 30, 10, 05)
-            let hhmm = dateProcessor.getHHMM(date)
-            expect(hhmm).toEqual('10:05')
+        it('returns 99 when passed 99', () => {
+            let number = 99
+            expect(dateProcessor.zeroPadding(number)).toEqual(99)
+        })
+
+        it('returns 100 when passed 100', () => {
+            let number = 100
+            expect(dateProcessor.zeroPadding(number)).toEqual(100)
+        })
+
+        it('returns "a" when passed "a"', () => {
+            let number = 'a'
+            expect(dateProcessor.zeroPadding(number)).toEqual('a')
         })
     })
 
-    describe('getUTCHHMM function', () => {
-        it('returns String', () => {
-            let date = new Date()
-            let hhmm = dateProcessor.getUTCHHMM(date)
-            expect(typeof hhmm).toEqual('string')
+    describe('showTime function', () => {
+        it('returns "1:05" when passed 3900000', () => {
+            let time = 3900000
+            expect(dateProcessor.showTime(time)).toEqual("1:05")
         })
 
-        it('returns UTC time', () => {
-            let date = new Date(2017, 4, 30, 20, 05)
-            let hhmm = dateProcessor.getUTCHHMM(date)
-            expect(hhmm).toEqual('08:05')
+        it('returns "30:00" when passed 108000000 (>24h)', () => {
+            let time = 108000000
+            expect(dateProcessor.showTime(time)).toEqual("30:00")
+        })
+
+        it('returns "0:00" when passed -3900000 (negative number)', () => {
+            let time = -3900000
+            expect(dateProcessor.showTime(time)).toEqual("0:00")
+        })
+
+        it('returns "0:00" when passed "aaa" (not a number)', () => {
+            let time = 'aaa'
+            expect(dateProcessor.showTime(time)).toEqual("0:00")
         })
     })
+
+    describe('getDateSum function', () => {
+        it('returns 1800000 (30min) when passed [5min, 10min, 15min]', () => {
+            let dateA = new Date(300000)
+            let dateB = new Date(600000)
+            let dateC = new Date(900000)
+            let dates = [dateA, dateB, dateC]
+            expect(dateProcessor.getDateSum(dates)).toEqual(1800000)
+        })
+    })
+
+    describe('getDateMean function', () => {
+        it('returns 600000 (10min) when passed [5min, 10min, 15min]', () => {
+            let dateA = new Date(300000)
+            let dateB = new Date(600000)
+            let dateC = new Date(900000)
+            let dates = [dateA, dateB, dateC]
+            expect(dateProcessor.getDateMean(dates)).toEqual(600000)
+        })
+    })
+
+    describe('getDeviations function', () => {
+        it('returns [-300000, 0, 300000] when passed [5min, 10min, 15min]', () => {
+            let dateA = new Date(300000)
+            let dateB = new Date(600000)
+            let dateC = new Date(900000)
+            let dates = [dateA, dateB, dateC]
+            let deviations = dateProcessor.getDeviations(dates)
+            expect(deviations[0]).toEqual(-300000)
+            expect(deviations[1]).toEqual(0)
+            expect(deviations[2]).toEqual(300000)
+        })
+    })
+
+    describe('getCorrelationCoefficient function', () => {
+        it('returns 1 when passed x:[5min, 10min, 15min] y:[5min, 10min, 15min]', () => {
+            let dateA = new Date(300000)
+            let dateB = new Date(600000)
+            let dateC = new Date(900000)
+            let datesX = [dateA, dateB, dateC]
+            let datesY = [dateA, dateB, dateC]
+
+            let result = dateProcessor.getCorrelationCoefficient(datesX, datesY)
+            expect(result).toEqual(1)
+        })
+
+        it('returns -1 when passed x:[5min, 10min, 15min] y:[15min, 10min, 5min]', () => {
+            let dateA = new Date(300000)
+            let dateB = new Date(600000)
+            let dateC = new Date(900000)
+            let datesX = [dateA, dateB, dateC]
+            let datesY = [dateC, dateB, dateA]
+
+            let result = dateProcessor.getCorrelationCoefficient(datesX, datesY)
+            expect(result).toEqual(-1)
+        })
+
+        it('returns a number between 0 to 1 when passed x:[5min, 10min, 15min] y:[10min, 10min, 15min]', () => {
+            let dateA = new Date(300000)
+            let dateB = new Date(600000)
+            let dateC = new Date(900000)
+            let datesX = [dateA, dateB, dateC]
+            let datesY = [dateB, dateB, dateC]
+
+            let result = dateProcessor.getCorrelationCoefficient(datesX, datesY)
+            expect(result).toBeGreaterThan(0)
+            expect(result).toBeLessThan(1)
+        })
+
+        it('returns a number between -1 to 0 when passed x:[5min, 10min, 15min] y:[10min, 10min, 5min]', () => {
+            let dateA = new Date(300000)
+            let dateB = new Date(600000)
+            let dateC = new Date(900000)
+            let datesX = [dateA, dateB, dateC]
+            let datesY = [dateB, dateB, dateA]
+
+            let result = dateProcessor.getCorrelationCoefficient(datesX, datesY)
+            expect(result).toBeGreaterThan(-1)
+            expect(result).toBeLessThan(0)
+        })
+    })
+
 })
