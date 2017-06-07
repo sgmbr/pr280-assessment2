@@ -3,6 +3,7 @@
 class DateProcessor {
     constructor() {}
 
+    // combineDateStart
     buildStartDate(theDate, theStart) {
         let year = theDate.getFullYear()
         let month = theDate.getMonth()
@@ -14,6 +15,7 @@ class DateProcessor {
         return start
     }
 
+    // timeStringToDate
     convertInterruptionToDate(interruption) {
         let match = interruption.match(/^(\d{2})\:(\d{2})$/)
         let hours, minutes, time
@@ -29,14 +31,15 @@ class DateProcessor {
         return new Date(time)
     }
 
+    // calcDeltaTime
     getDeltaTime(start, stop, interruption) {
         let delta = new Date(stop - start - interruption)
         return delta
     }
 
-    // format time to fit input[time]
     getCurrentTime() {
         let now = new Date()
+        // format time to fit input[time]
         now.setSeconds(0)
         now.setMilliseconds(0)
         return now
@@ -46,6 +49,7 @@ class DateProcessor {
         return (number < 10) ? "0" + number : number
     }
 
+    // dateToString? getTimeString?
     showTime(time) {
         let hours, minutes
 
@@ -61,11 +65,13 @@ class DateProcessor {
         return `${hours}:${minutes}`
     }
 
+    // calcDateSum
     getDateSum(dates) {
         let sum = dates.reduce((acc, cur) => acc + cur.getTime(), 0)
         return sum
     }
 
+    // calcDateMean
     getDateMean(dates) {
         let mean = 0
         if (dates.length > 0) {
@@ -74,12 +80,15 @@ class DateProcessor {
         return mean
     }
 
+    // calcDeviation
     getDeviations(dates) {
         let mean = this.getDateMean(dates)
         let deviations = dates.map(date => date.getTime() - mean)
         return deviations
     }
 
+    // calcCorrelationCoefficient
+    // datesX, datesY
     getCorrelationCoefficient(x, y) {
         function getProduct(xDeviations, yDeviations) {
             let product = 0

@@ -18,8 +18,8 @@
             <h2>Log Entry</h2>
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="project">Project:</label>
-                    <div class="input-group col-sm-7">
+                    <label class="control-label col-sm-4" for="project">Project:</label>
+                    <div class="input-group col-sm-8">
                         <select class="form-control" id="project" data-ng-model="mc.selectedProject" data-ng-options="project for project in mc.projects"></select>
                         <div class="input-group-btn">
                             <button class="btn btn-default" data-ng-click="mc.addProject()">
@@ -30,8 +30,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="phase">Phase:</label>
-                    <div class="input-group col-sm-7">
+                    <label class="control-label col-sm-4" for="phase">Phase:</label>
+                    <div class="input-group col-sm-8">
                         <select class="form-control" id="phase" data-ng-model="mc.selectedPhase" data-ng-options="phase for phase in mc.phases"></select>
                         <div class="input-group-btn">
                             <button class="btn btn-default" data-ng-click="mc.addPhase()">
@@ -42,55 +42,106 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="date">Date:</label>
-                    <div class="col-sm-7">
+                    <label class="control-label col-sm-4" for="date">Date:</label>
+                    <div class="col-sm-8">
                         <input type="date" class="form-control" id="date" data-ng-model="mc.date">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="start">Start:</label>
-                    <div class="col-sm-7">
+                    <label class="control-label col-sm-4" for="start">Start:</label>
+                    <div class="col-sm-8">
                         <input type="time" class="form-control" id="start" data-ng-model="mc.start" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="stop">Stop:</label>
-                    <div class="col-sm-7">
+                    <label class="control-label col-sm-4" for="stop">Stop:</label>
+                    <div class="col-sm-8">
                         <input type="time" class="form-control" id="stop" data-ng-model="mc.stop">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="interruption">Int Time:</label>
-                    <div class="col-sm-7">
+                    <label class="control-label col-sm-4" for="interruption">IntTime:</label>
+                    <div class="col-sm-8">
                         <input type="text" class="form-control" id="interruption" data-ng-model="mc.interruption">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="delta">Delta Time:</label>
-                    <div class="col-sm-7">
+                    <label class="control-label col-sm-4" for="delta">DeltaTime:</label>
+                    <div class="col-sm-8">
                         <p class="form-control-static">{{ mc.showDeltaTime() | date:"HH:mm":"UTC" }}</p>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="comment">Comment:</label>
-                    <div class="col-sm-7">
+                    <label class="control-label col-sm-4" for="comment">Comment:</label>
+                    <div class="col-sm-8">
                         <textarea class="form-control" id="comment" data-ng-model="mc.comment"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-5 col-sm-7">
+                    <div class="col-sm-offset-4 col-sm-8">
                         <button class="btn btn-default" data-ng-click="mc.addTimeLog()">Enter</button>
+                    </div>
+                </div>
+            </form>
+
+            <form class="form-horizontal" data-ng-controller="FileController as fc">
+                <h2>Upload from File</h2>
+                <div class="col-sm-12">
+                    <input type="file" on-read-file>
+                </div>
+                <button class="btn btn-default" data-ng-click="fc.checkFile()" data-toggle="modal" data-target="#check-file">Check File</button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="check-file" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">File Input Preview</h4>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Project</th>
+                                            <th>Phase</th>
+                                            <th>Date</th>
+                                            <th>Start</th>
+                                            <th>Stop</th>
+                                            <th>Interrupt Time</th>
+                                            <th>Comment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="log in fc.timeLogs">
+                                            <td>{{ log.project }}</td>
+                                            <td>{{ log.phase }}</td>
+                                            <td>{{ log.date}}</td>
+                                            <td>{{ log.start}}</td>
+                                            <td>{{ log.stop}}</td>
+                                            <td>{{ log.interruption}}</td>
+                                            <td>{{ log.comment }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="fc.upload()">Upload</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
 
+        <!-- Right field -->
         <div class="col-sm-9">
             <!-- Nav tabs -->
             <ul id="tabs" class="nav nav-tabs" role="tablist">
@@ -119,8 +170,12 @@
     <script src="src/time-logger.js"></script>
     <script src="src/time-log-table.js"></script>
     <script src="src/summary.js"></script>
+    <script src="src/on-read-file.js"></script>
+    <script src="src/message.js"></script>
+    <script src="src/parser.js"></script>
     <script src="src/controller.js"></script>
     <script src="src/summary-controller.js"></script>
+    <script src="src/file-controller.js"></script>
     <script src="src/main.js"></script>
 </body>
 </html>

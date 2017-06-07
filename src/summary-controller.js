@@ -25,7 +25,8 @@ class SummaryController {
     }
 
     showCorrelationCoefficient() {
-        return this.dateProcessor.getCorrelationCoefficient(this.getInterruptions(), this.getDeltas())
+        let result = this.dateProcessor.getCorrelationCoefficient(this.getInterruptions(), this.getDeltas())
+        return result
     }
 
 }
