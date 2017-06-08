@@ -9,7 +9,12 @@ class FileController {
     }
 
     checkFile() {
-        this.timeLogs = this.parser.parseTimeLogCsv(this.message.list[0])
+        try {
+            this.timeLogs = this.parser.parseTimeLogCsv(this.message.list[0])
+            $('#preview').modal('show')
+        } catch (error) {
+            $('#file-read-error').modal('show')
+        }
     }
 
     upload() {
@@ -21,6 +26,13 @@ class FileController {
             let stop = new Date(`1970-01-01T${timeLog.stop}:00`)
             let interruption = this.dateProcessor.convertInterruptionToDate(timeLog.interruption)
             let comment = timeLog.comment
+
+            if (!this.timeLogger.findProject(project)) {
+                this.timeLogger.addProject(project)
+            }
+            if (!this.timeLogger.findPhase(phase)) {
+                this.timeLogger.addPhase(phase)
+            }
 
             let delta = this.dateProcessor.getDeltaTime(start, stop, interruption)
             start = this.dateProcessor.buildStartDate(date, start)

@@ -32,4 +32,12 @@ class TimeLogger {
         let newTimeLog = new TimeLog(newId, theProject, thePhase, newStart, newStop, newInterruption, newDelta, newComment)
         this.allMyTimeLogs.push(newTimeLog)
     }
+
+    findProject(project) {
+        return this.projects.includes(project)
+    }
+
+    findPhase(phase) {
+        return this.phases.includes(phase)
+    }
 }

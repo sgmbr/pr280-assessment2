@@ -10,15 +10,22 @@ class Parser {
         lines.splice(0, 1) // Delete header
 
         lines.forEach(line => {
-            let columns = line.split(',')
-            cb(columns)
+            if(line.trim() !== '') {
+                let columns = line.split(',')
+                cb(columns)
+            }
         })
     }
 
     parseTimeLogCsv(csv) {
         this.parsed = []
         this.parseCsv(csv, columns => {
-            if (columns.length == 7) {
+            if (columns.length === 7 &&
+                this.isValidDate(columns[2]) &&
+                this.isValidTime(columns[3]) &&
+                this.isValidTime(columns[4]) &&
+                this.isValidTime(columns[5]) ) {
+
                 let timeLog = {
                     project: columns[0],
                     phase: columns[1],
@@ -29,8 +36,20 @@ class Parser {
                     comment: columns[6]
                 }
                 this.parsed.push(timeLog)
+            } else {
+                throw new Error('Invalid input')
             }
         })
         return this.parsed
+    }
+
+    isValidDate(str) {
+        let date = new Date(str)
+        return date.toString() !== 'Invalid Date' ? true : false
+    }
+
+    isValidTime(str) {
+        let date = new Date(`1970-01-01T${str}:00`)
+        return date.toString() !== 'Invalid Date' ? true : false
     }
 }
