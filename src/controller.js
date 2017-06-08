@@ -21,8 +21,8 @@ class MainController {
     }
 
     showDeltaTime() {
-        let interruption = this.dateProcessor.convertInterruptionToDate(this.interruption)
-        let delta = this.dateProcessor.getDeltaTime(this.start, this.stop, interruption)
+        let interruption = this.dateProcessor.timeStringToDate(this.interruption)
+        let delta = this.dateProcessor.calcDeltaTime(this.start, this.stop, interruption)
         return delta
     }
 
@@ -41,8 +41,8 @@ class MainController {
     }
 
     addTimeLog() {
-        let interruption = this.dateProcessor.convertInterruptionToDate(this.interruption)
-        let delta = this.dateProcessor.getDeltaTime(this.start, this.stop, interruption)
+        let interruption = this.dateProcessor.timeStringToDate(this.interruption)
+        let delta = this.dateProcessor.calcDeltaTime(this.start, this.stop, interruption)
         let start = this.dateProcessor.buildStartDate(this.date, this.start)
         this.timeLogger.addTimeLog(this.selectedProject, this.selectedPhase, start, this.stop, interruption, delta, this.comment)
         this.initialiseForm()

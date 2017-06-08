@@ -15,17 +15,17 @@ class SummaryController {
     }
 
     showTimeSum(dates) {
-        let sum = this.dateProcessor.getDateSum(dates)
-        return this.dateProcessor.showTime(sum)
+        let sum = this.dateProcessor.calcDateSum(dates)
+        return this.dateProcessor.getTimeString(sum)
     }
 
     showTimeMean(dates) {
-        let mean = this.dateProcessor.getDateMean(dates)
-        return this.dateProcessor.showTime(mean)
+        let mean = this.dateProcessor.calcDateMean(dates)
+        return this.dateProcessor.getTimeString(mean)
     }
 
     showCorrelationCoefficient() {
-        let result = this.dateProcessor.getCorrelationCoefficient(this.getInterruptions(), this.getDeltas())
+        let result = this.dateProcessor.calcCorrelationCoefficient(this.getInterruptions(), this.getDeltas())
         return result
     }
 

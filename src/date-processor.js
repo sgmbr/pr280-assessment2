@@ -3,7 +3,6 @@
 class DateProcessor {
     constructor() {}
 
-    // combineDateStart
     buildStartDate(theDate, theStart) {
         let year = theDate.getFullYear()
         let month = theDate.getMonth()
@@ -15,9 +14,8 @@ class DateProcessor {
         return start
     }
 
-    // timeStringToDate
-    convertInterruptionToDate(interruption) {
-        let match = interruption.match(/^(\d{2})\:(\d{2})$/)
+    timeStringToDate(timeString) {
+        let match = timeString.match(/^(\d{2})\:(\d{2})$/)
         let hours, minutes, time
 
         if (match) {
@@ -31,8 +29,7 @@ class DateProcessor {
         return new Date(time)
     }
 
-    // calcDeltaTime
-    getDeltaTime(start, stop, interruption) {
+    calcDeltaTime(start, stop, interruption) {
         let delta = new Date(stop - start - interruption)
         return delta
     }
@@ -49,8 +46,7 @@ class DateProcessor {
         return (number < 10) ? "0" + number : number
     }
 
-    // dateToString? getTimeString?
-    showTime(time) {
+    getTimeString(time) {
         let hours, minutes
 
         if (typeof time === 'number' && time > 0) {
@@ -65,32 +61,27 @@ class DateProcessor {
         return `${hours}:${minutes}`
     }
 
-    // calcDateSum
-    getDateSum(dates) {
+    calcDateSum(dates) {
         let sum = dates.reduce((acc, cur) => acc + cur.getTime(), 0)
         return sum
     }
 
-    // calcDateMean
-    getDateMean(dates) {
+    calcDateMean(dates) {
         let mean = 0
         if (dates.length > 0) {
-            mean = this.getDateSum(dates) / dates.length
+            mean = this.calcDateSum(dates) / dates.length
         }
         return mean
     }
 
-    // calcDeviation
-    getDeviations(dates) {
-        let mean = this.getDateMean(dates)
+    calcDeviation(dates) {
+        let mean = this.calcDateMean(dates)
         let deviations = dates.map(date => date.getTime() - mean)
         return deviations
     }
 
-    // calcCorrelationCoefficient
-    // datesX, datesY
-    getCorrelationCoefficient(x, y) {
-        function getProduct(xDeviations, yDeviations) {
+    calcCorrelationCoefficient(datesX, datesY) {
+        function calcProduct(xDeviations, yDeviations) {
             let product = 0
             for (let i = 0; i < xDeviations.length; i++) {
                 product += xDeviations[i] * yDeviations[i]
@@ -98,18 +89,18 @@ class DateProcessor {
             return product
         }
 
-        function getDeviationsSquaredSum(deviations) {
+        function calcDeviationSquaredSum(deviations) {
             let squared = deviations.map(deviation => deviation * deviation)
             let sum = squared.reduce((acc, cur) => acc + cur, 0)
             return sum
         }
 
-        let xDeviations = this.getDeviations(x)
-        let yDeviations = this.getDeviations(y)
+        let xDeviations = this.calcDeviation(datesX)
+        let yDeviations = this.calcDeviation(datesY)
 
-        let product = getProduct(xDeviations, yDeviations)
-        let xDeviationsSquaredSum = getDeviationsSquaredSum(xDeviations)
-        let yDeviationsSquaredSum = getDeviationsSquaredSum(yDeviations)
+        let product = calcProduct(xDeviations, yDeviations)
+        let xDeviationsSquaredSum = calcDeviationSquaredSum(xDeviations)
+        let yDeviationsSquaredSum = calcDeviationSquaredSum(yDeviations)
 
         let correlationCoefficient = product / Math.sqrt(xDeviationsSquaredSum * yDeviationsSquaredSum)
 

@@ -28,7 +28,7 @@ describe('DateProcessor', () => {
         })
     })
 
-    describe('convertInterruptionToDate function', () => {
+    describe('timeStringToDate function', () => {
         let interruption
 
         beforeEach(() => {
@@ -36,23 +36,23 @@ describe('DateProcessor', () => {
         })
 
         it('returns Date instance', () => {
-            let interruptionDate = dateProcessor.convertInterruptionToDate(interruption)
+            let interruptionDate = dateProcessor.timeStringToDate(interruption)
             expect(interruptionDate instanceof Date).toBeTruthy()
         })
 
         it('returns time distance from 1970/01/01 00:00 UTC', () => {
-            let interruptionDate = dateProcessor.convertInterruptionToDate(interruption)
+            let interruptionDate = dateProcessor.timeStringToDate(interruption)
             expect(interruptionDate.toUTCString()).toEqual('Thu, 01 Jan 1970 01:05:00 GMT')
         })
 
         it('returns a date of 00:00 if parameter is invalid', () => {
             interruption = 'test'
-            let interruptionDate = dateProcessor.convertInterruptionToDate(interruption)
+            let interruptionDate = dateProcessor.timeStringToDate(interruption)
             expect(interruptionDate.toUTCString()).toEqual('Thu, 01 Jan 1970 00:00:00 GMT')
         })
     })
 
-    describe('getDeltaTime function', () => {
+    describe('calcDeltaTime function', () => {
         let start, stop, interruption
 
         beforeEach(() => {
@@ -62,18 +62,18 @@ describe('DateProcessor', () => {
         })
 
         it('returns Date instance', () => {
-            let delta = dateProcessor.getDeltaTime(start, stop, interruption)
+            let delta = dateProcessor.calcDeltaTime(start, stop, interruption)
             expect(delta instanceof Date).toBeTruthy()
         })
 
         it('returns 1 hour when given 1 hour distance', () => {
-            let delta = dateProcessor.getDeltaTime(start, stop, interruption)
+            let delta = dateProcessor.calcDeltaTime(start, stop, interruption)
             expect(delta.toUTCString()).toBe('Thu, 01 Jan 1970 01:00:00 GMT')
         })
 
         it('returns 55 min when given 1 hour distance and 5 min interruption', () => {
             interruption = new Date('1970-01-01T00:05Z') // 5 min interruption
-            let delta = dateProcessor.getDeltaTime(start, stop, interruption)
+            let delta = dateProcessor.calcDeltaTime(start, stop, interruption)
             expect(delta.toUTCString()).toBe('Thu, 01 Jan 1970 00:55:00 GMT')
         })
     })
@@ -113,62 +113,62 @@ describe('DateProcessor', () => {
         })
     })
 
-    describe('showTime function', () => {
+    describe('getTimeString function', () => {
         it('returns "1:05" when passed 3900000', () => {
             let time = 3900000
-            expect(dateProcessor.showTime(time)).toEqual("1:05")
+            expect(dateProcessor.getTimeString(time)).toEqual("1:05")
         })
 
         it('returns "30:00" when passed 108000000 (>24h)', () => {
             let time = 108000000
-            expect(dateProcessor.showTime(time)).toEqual("30:00")
+            expect(dateProcessor.getTimeString(time)).toEqual("30:00")
         })
 
         it('returns "0:00" when passed -3900000 (negative number)', () => {
             let time = -3900000
-            expect(dateProcessor.showTime(time)).toEqual("0:00")
+            expect(dateProcessor.getTimeString(time)).toEqual("0:00")
         })
 
         it('returns "0:00" when passed "aaa" (not a number)', () => {
             let time = 'aaa'
-            expect(dateProcessor.showTime(time)).toEqual("0:00")
+            expect(dateProcessor.getTimeString(time)).toEqual("0:00")
         })
     })
 
-    describe('getDateSum function', () => {
+    describe('calcDateSum function', () => {
         it('returns 1800000 (30min) when passed [5min, 10min, 15min]', () => {
             let dateA = new Date(300000)
             let dateB = new Date(600000)
             let dateC = new Date(900000)
             let dates = [dateA, dateB, dateC]
-            expect(dateProcessor.getDateSum(dates)).toEqual(1800000)
+            expect(dateProcessor.calcDateSum(dates)).toEqual(1800000)
         })
     })
 
-    describe('getDateMean function', () => {
+    describe('calcDateMean function', () => {
         it('returns 600000 (10min) when passed [5min, 10min, 15min]', () => {
             let dateA = new Date(300000)
             let dateB = new Date(600000)
             let dateC = new Date(900000)
             let dates = [dateA, dateB, dateC]
-            expect(dateProcessor.getDateMean(dates)).toEqual(600000)
+            expect(dateProcessor.calcDateMean(dates)).toEqual(600000)
         })
     })
 
-    describe('getDeviations function', () => {
+    describe('calcDeviation function', () => {
         it('returns [-300000, 0, 300000] when passed [5min, 10min, 15min]', () => {
             let dateA = new Date(300000)
             let dateB = new Date(600000)
             let dateC = new Date(900000)
             let dates = [dateA, dateB, dateC]
-            let deviations = dateProcessor.getDeviations(dates)
+            let deviations = dateProcessor.calcDeviation(dates)
             expect(deviations[0]).toEqual(-300000)
             expect(deviations[1]).toEqual(0)
             expect(deviations[2]).toEqual(300000)
         })
     })
 
-    describe('getCorrelationCoefficient function', () => {
+    describe('calcCorrelationCoefficient function', () => {
         it('returns 1 when passed x:[5min, 10min, 15min] y:[5min, 10min, 15min]', () => {
             let dateA = new Date(300000)
             let dateB = new Date(600000)
@@ -176,7 +176,7 @@ describe('DateProcessor', () => {
             let datesX = [dateA, dateB, dateC]
             let datesY = [dateA, dateB, dateC]
 
-            let result = dateProcessor.getCorrelationCoefficient(datesX, datesY)
+            let result = dateProcessor.calcCorrelationCoefficient(datesX, datesY)
             expect(result).toEqual(1)
         })
 
@@ -187,7 +187,7 @@ describe('DateProcessor', () => {
             let datesX = [dateA, dateB, dateC]
             let datesY = [dateC, dateB, dateA]
 
-            let result = dateProcessor.getCorrelationCoefficient(datesX, datesY)
+            let result = dateProcessor.calcCorrelationCoefficient(datesX, datesY)
             expect(result).toEqual(-1)
         })
 
@@ -198,7 +198,7 @@ describe('DateProcessor', () => {
             let datesX = [dateA, dateB, dateC]
             let datesY = [dateB, dateB, dateC]
 
-            let result = dateProcessor.getCorrelationCoefficient(datesX, datesY)
+            let result = dateProcessor.calcCorrelationCoefficient(datesX, datesY)
             expect(result).toBeGreaterThan(0)
             expect(result).toBeLessThan(1)
         })
@@ -210,7 +210,7 @@ describe('DateProcessor', () => {
             let datesX = [dateA, dateB, dateC]
             let datesY = [dateB, dateB, dateA]
 
-            let result = dateProcessor.getCorrelationCoefficient(datesX, datesY)
+            let result = dateProcessor.calcCorrelationCoefficient(datesX, datesY)
             expect(result).toBeGreaterThan(-1)
             expect(result).toBeLessThan(0)
         })

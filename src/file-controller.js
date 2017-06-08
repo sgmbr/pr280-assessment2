@@ -24,7 +24,7 @@ class FileController {
             let date = new Date(timeLog.date)
             let start = new Date(`1970-01-01T${timeLog.start}:00`)
             let stop = new Date(`1970-01-01T${timeLog.stop}:00`)
-            let interruption = this.dateProcessor.convertInterruptionToDate(timeLog.interruption)
+            let interruption = this.dateProcessor.timeStringToDate(timeLog.interruption)
             let comment = timeLog.comment
 
             if (!this.timeLogger.findProject(project)) {
@@ -34,7 +34,7 @@ class FileController {
                 this.timeLogger.addPhase(phase)
             }
 
-            let delta = this.dateProcessor.getDeltaTime(start, stop, interruption)
+            let delta = this.dateProcessor.calcDeltaTime(start, stop, interruption)
             start = this.dateProcessor.buildStartDate(date, start)
             this.timeLogger.addTimeLog(project, phase, start, stop, interruption, delta, comment)
         })
