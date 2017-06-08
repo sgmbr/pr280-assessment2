@@ -17,7 +17,7 @@ class FileController {
         }
     }
 
-    upload() {
+    addTimeLogs() {
         this.timeLogs.forEach(timeLog => {
             let project = timeLog.project
             let phase = timeLog.phase

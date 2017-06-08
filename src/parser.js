@@ -5,16 +5,26 @@ class Parser {
         this.parsed = []
     }
 
-    parseCsv(csv, cb) {
+    parseCsv(csv, callback) {
         let lines = csv.split('\r\n')
         lines.splice(0, 1) // Delete header
 
         lines.forEach(line => {
             if(line.trim() !== '') {
                 let columns = line.split(',')
-                cb(columns)
+                callback(columns)
             }
         })
+    }
+
+    isValidDate(str) {
+        let date = new Date(str)
+        return date.toString() !== 'Invalid Date' ? true : false
+    }
+
+    isValidTime(str) {
+        let date = new Date(`1970-01-01T${str}:00`)
+        return date.toString() !== 'Invalid Date' ? true : false
     }
 
     parseTimeLogCsv(csv) {
@@ -43,13 +53,4 @@ class Parser {
         return this.parsed
     }
 
-    isValidDate(str) {
-        let date = new Date(str)
-        return date.toString() !== 'Invalid Date' ? true : false
-    }
-
-    isValidTime(str) {
-        let date = new Date(`1970-01-01T${str}:00`)
-        return date.toString() !== 'Invalid Date' ? true : false
-    }
 }
