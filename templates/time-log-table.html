@@ -9,6 +9,7 @@
             <th>Interrupt Time</th>
             <th>Delta Time</th>
             <th>Comment</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -21,6 +22,10 @@
             <td>{{ log.interruption | date:"H:mm":"UTC" }}</td>
             <td>{{ log.delta | date:"H:mm":"UTC" }}</td>
             <td>{{ log.comment }}</td>
+            <td>
+                <button class="btn btn-sm btn-primary">Edit</button>
+                <button class="btn btn-sm btn-danger" data-ng-click="mc.deleteTimeLog(log.id)">Delete</button>
+            </td>
         </tr>
     </tbody>
 </table>

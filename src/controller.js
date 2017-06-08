@@ -47,6 +47,10 @@ class MainController {
         this.timeLogger.addTimeLog(this.selectedProject, this.selectedPhase, start, this.stop, interruption, delta, this.comment)
         this.initialiseForm()
     }
+
+    deleteTimeLog(id) {
+        this.timeLogger.deleteTimeLog(id)
+    }
 }
 
 MainController.$inject = ['timeLogger', 'dateProcessor']

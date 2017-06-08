@@ -40,4 +40,9 @@ class TimeLogger {
     findPhase(phase) {
         return this.phases.includes(phase)
     }
+
+    deleteTimeLog(id) {
+        let index = this.allMyTimeLogs.findIndex(timeLog => timeLog.id === id)
+        this.allMyTimeLogs.splice(index, 1)
+    }
 }
