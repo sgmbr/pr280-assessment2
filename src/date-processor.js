@@ -3,6 +3,14 @@
 class DateProcessor {
     constructor() {}
 
+    getCurrentTime() {
+        let now = new Date()
+        // format time to fit input[time]
+        now.setSeconds(0)
+        now.setMilliseconds(0)
+        return now
+    }
+
     buildStartDate(theDate, theStart) {
         let year = theDate.getFullYear()
         let month = theDate.getMonth()
@@ -14,8 +22,16 @@ class DateProcessor {
         return start
     }
 
+    startDateToTime(date) {
+        let hours = date.getHours()
+        let minutes = date.getMinutes()
+
+        let time = new Date(1970, 0, 1, hours, minutes)
+        return time
+    }
+
     timeStringToDate(timeString) {
-        let match = timeString.match(/^(\d{2})\:(\d{2})$/)
+        let match = timeString.match(/^(\d+)\:(\d{2})$/)
         let hours, minutes, time
 
         if (match) {
@@ -34,24 +50,16 @@ class DateProcessor {
         return delta
     }
 
-    getCurrentTime() {
-        let now = new Date()
-        // format time to fit input[time]
-        now.setSeconds(0)
-        now.setMilliseconds(0)
-        return now
-    }
-
     zeroPadding(number) {
         return (number < 10) ? "0" + number : number
     }
 
-    getTimeString(time) {
+    getTimeString(timeNum) {
         let hours, minutes
 
-        if (typeof time === 'number' && time > 0) {
-            hours = Math.floor(time / 1000 / 60 / 60) % 60
-            minutes = Math.floor(time / 1000 / 60) % 60
+        if (typeof timeNum === 'number' && timeNum > 0) {
+            hours = Math.floor(timeNum / 1000 / 60 / 60) % 60
+            minutes = Math.floor(timeNum / 1000 / 60) % 60
         } else {
             hours = minutes = 0
         }

@@ -41,8 +41,18 @@ class TimeLogger {
         return this.phases.includes(phase)
     }
 
+    findTimeLog(id) {
+        let found = this.allMyTimeLogs.find(timeLog => timeLog.id === id )
+        return found
+    }
+
     deleteTimeLog(id) {
         let index = this.allMyTimeLogs.findIndex(timeLog => timeLog.id === id)
         this.allMyTimeLogs.splice(index, 1)
+    }
+
+    updateTimeLog(id, project, phase, start, stop, interruption, delta, comment) {
+        let targetTimeLog = this.findTimeLog(id)
+        targetTimeLog.update(project, phase, start, stop, interruption, delta, comment)
     }
 }

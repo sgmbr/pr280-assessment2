@@ -11,4 +11,14 @@ class TimeLog {
         this.delta = newDelta
         this.comment = newComment
     }
+
+    update(theProject, thePhase, newStart, newStop, newInterruption, newDelta, newComment) {
+        this.myProject = theProject
+        this.myPhase = thePhase
+        this.start = newStart
+        this.stop = newStop
+        this.interruption = newInterruption
+        this.delta = newDelta
+        this.comment = newComment
+    }
 }

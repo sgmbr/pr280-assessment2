@@ -5,6 +5,7 @@ window.angular
     .controller('MainController', MainController)
     .controller('SummaryController', SummaryController)
     .controller('FileController', FileController)
+    .controller('EditController', EditController)
     .directive('timeLogTable', TimeLogTable.directiveFactory)
     .directive('summary', Summary.directiveFactory)
     .directive('onReadFile', OnReadFile.directiveFactory)

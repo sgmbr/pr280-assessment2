@@ -1,11 +1,9 @@
 /* jshint undef: true, unused: true, esversion: 6, asi: true */
 
-class MainController {
+class EditController {
     constructor(timeLogger, dateProcessor) {
         this.timeLogger = timeLogger
         this.dateProcessor = dateProcessor
-        this.projects = this.timeLogger.projects
-        this.phases = this.timeLogger.phases
 
         this.initialiseForm()
     }
@@ -26,32 +24,32 @@ class MainController {
         return delta
     }
 
-    addProject() {
-        let newProjectName = prompt('Create new project').trim()
-        if (newProjectName !== '') {
-            this.timeLogger.addProject(newProjectName)
-        }
+    editTimeLog(id) {
+        this.targetTimeLog = this.timeLogger.findTimeLog(id)
+        this.id = id
+
+        this.selectedProject = this.targetTimeLog.myProject
+        this.selectedPhase = this.targetTimeLog.myPhase
+        this.date = this.targetTimeLog.start
+        this.start = this.dateProcessor.startDateToTime(this.targetTimeLog.start)
+        this.stop = this.targetTimeLog.stop
+        this.interruption = this.dateProcessor.getTimeString(this.targetTimeLog.interruption.getTime())
+        this.comment = this.targetTimeLog.comment
+
+        $('#edit').modal('show')
     }
 
-    addPhase() {
-        let newPhaseName = prompt('Create new phase').trim()
-        if (newPhaseName !== '') {
-            this.timeLogger.addPhase(newPhaseName)
-        }
-    }
-
-    addTimeLog() {
+    updateTimeLog() {
+        let start = this.dateProcessor.buildStartDate(this.date, this.start)
         let interruption = this.dateProcessor.timeStringToDate(this.interruption)
         let delta = this.dateProcessor.calcDeltaTime(this.start, this.stop, interruption)
-        let start = this.dateProcessor.buildStartDate(this.date, this.start)
-        this.timeLogger.addTimeLog(this.selectedProject, this.selectedPhase, start, this.stop, interruption, delta, this.comment)
-        this.initialiseForm()
-    }
 
-    deleteTimeLog(id) {
-        this.timeLogger.deleteTimeLog(id)
+        this.timeLogger.updateTimeLog(
+            this.id, this.selectedProject, this.selectedPhase,
+            start, this.stop, interruption, delta, this.comment
+        )
     }
 
 }
 
-MainController.$inject = ['timeLogger', 'dateProcessor']
+EditController.$inject = ['timeLogger', 'dateProcessor']
