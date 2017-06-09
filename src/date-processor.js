@@ -22,7 +22,7 @@ class DateProcessor {
         return start
     }
 
-    startDateToTime(date) {
+    dateToOnlyTime(date) {
         let hours = date.getHours()
         let minutes = date.getMinutes()
 

@@ -31,8 +31,8 @@ class EditController {
         this.selectedProject = this.targetTimeLog.myProject
         this.selectedPhase = this.targetTimeLog.myPhase
         this.date = this.targetTimeLog.start
-        this.start = this.dateProcessor.startDateToTime(this.targetTimeLog.start)
-        this.stop = this.targetTimeLog.stop
+        this.start = this.dateProcessor.dateToOnlyTime(this.targetTimeLog.start)
+        this.stop = this.dateProcessor.dateToOnlyTime(this.targetTimeLog.stop)
         this.interruption = this.dateProcessor.getTimeString(this.targetTimeLog.interruption.getTime())
         this.comment = this.targetTimeLog.comment
 
